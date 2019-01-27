@@ -1,5 +1,6 @@
 import React from 'react';
 import styled, {css} from 'styled-components';
+import { AppContext } from './AppProvider';
 
 const Bar = styled.div`
   display: grid;
@@ -14,7 +15,7 @@ const Logo = styled.div`
 const ControlButtonEl = styled.div`
   cursor: pointer;
   ${props => props.active && css`
-    text-shadow: 2px 2px 30px #03ff03;
+    text-shadow: 2px 2px 12px #03ff03;
     /* color: #03ff03; */
 
   `}
@@ -24,11 +25,18 @@ function toProperCase(lower) {
   return lower.charAt(0).toUpperCase() + lower.substr(1);
 }
 
-const ControlButton = ({name, active}) => {
+const ControlButton = ({name}) => {
   return (
-    <ControlButtonEl active={active}>
-      {toProperCase(name)}
-    </ControlButtonEl>
+    <AppContext.Consumer>
+      {({page, setPage}) => (
+        <ControlButtonEl 
+          active={page === name}
+          onClick={() => setPage(name)}
+        >
+          {toProperCase(name)}
+        </ControlButtonEl>
+      )}
+    </AppContext.Consumer>
   )
 }
 
