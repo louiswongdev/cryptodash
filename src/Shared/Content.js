@@ -1,6 +1,6 @@
 import React from 'react'
 import { AppContext } from '../App/AppProvider';
-import { ClipLoader } from 'react-spinners';
+import { GridLoader } from 'react-spinners';
 import { css } from 'styled-components';
 
 const override = css`
@@ -16,10 +16,10 @@ const Content = ({children}) => {
       {({loading}) => {
         if(loading) {
           return (
-            <ClipLoader
+            <GridLoader
               css={override}
               sizeUnit={"px"}
-              size={80}
+              size={18}
               color={'#36D7B7'}
             />
           )
