@@ -8,6 +8,7 @@ class AppProvider extends Component {
     super(props);
     this.state = {
       page: 'dashboard',
+      loading: true,
       ...this.savedSettings(),
       setPage: this.setPage,
       confirmFavorites: this.confirmFavorites
@@ -20,7 +21,7 @@ class AppProvider extends Component {
 
   fetchCoins = async () => {
     let coinList = (await cc.coinList()).Data;
-    this.setState({coinList});
+    this.setState({coinList, loading: false});
   };
 
   confirmFavorites = () => {
