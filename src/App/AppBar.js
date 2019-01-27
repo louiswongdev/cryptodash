@@ -1,5 +1,5 @@
 import React from 'react';
-import styled, {css} from 'styled-components';
+import styled, { css } from 'styled-components';
 import { AppContext } from './AppProvider';
 
 const Bar = styled.div`
@@ -14,41 +14,39 @@ const Logo = styled.div`
 
 const ControlButtonEl = styled.div`
   cursor: pointer;
-  ${props => props.active && css`
-    text-shadow: 2px 2px 12px #03ff03;
-    /* color: #03ff03; */
-
-  `}
+  ${props =>
+    props.active &&
+    css`
+      text-shadow: 2px 2px 12px #03ff03;
+      /* color: #03ff03; */
+    `}
 `;
 
 function toProperCase(lower) {
   return lower.charAt(0).toUpperCase() + lower.substr(1);
 }
 
-const ControlButton = ({name}) => {
+const ControlButton = ({ name }) => {
   return (
     <AppContext.Consumer>
-      {({page, setPage}) => (
-        <ControlButtonEl 
-          active={page === name}
-          onClick={() => setPage(name)}
-        >
+      {({ page, setPage }) => (
+        <ControlButtonEl active={page === name} onClick={() => setPage(name)}>
           {toProperCase(name)}
         </ControlButtonEl>
       )}
     </AppContext.Consumer>
-  )
-}
+  );
+};
 
 const AppBar = () => {
   return (
     <Bar>
       <Logo>CyptoDash</Logo>
-      <div/>
+      <div />
       <ControlButton active name="dashboard" />
       <ControlButton name="settings" />
     </Bar>
-  )
-}
+  );
+};
 
 export default AppBar;

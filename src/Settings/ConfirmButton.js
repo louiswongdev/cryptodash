@@ -16,15 +16,15 @@ export const CenterDiv = styled.div`
 const ConfirmButton = () => {
   return (
     <AppContext.Consumer>
-      {({confirmFavorites}) => 
+      {({ confirmFavorites }) => (
         <CenterDiv>
           <ConfirmButtonStyled onClick={confirmFavorites}>
             Confirm Favorites
           </ConfirmButtonStyled>
         </CenterDiv>
-      }
+      )}
     </AppContext.Consumer>
-  )
-}
+  );
+};
 
 export default ConfirmButton;
