@@ -10,6 +10,7 @@ export default () => {
       {/* Only show children in <Page> component state.page === "settings"  */}
       <Page name="settings">
         <WelcomeMessage />
+        <CoinGrid topSection />
         <ConfirmButton />
         <CoinGrid />
       </Page>

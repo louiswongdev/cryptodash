@@ -11,18 +11,18 @@ export const CoinGridStyled = styled.div`
   margin-top: 40px;
 `;
 
-// Return only the first 100 coins
-const getCoinsToDisplay = coinList => {
-  return Object.keys(coinList).slice(0, 100);
+// If has topSection prop, only display 10 crypto tiles. Otherwise, all 100
+const getCoinsToDisplay = (coinList, topSection) => {
+  return Object.keys(coinList).slice(0, topSection ? 10 : 100);
 };
 
-const CoinGrid = () => {
+const CoinGrid = ({topSection}) => {
   return (
     <AppContext.Consumer>
       {({ coinList }) => (
         <CoinGridStyled>
-          {getCoinsToDisplay(coinList).map((coinKey,i) => (
-            <CoinTile coinKey={coinKey} key={i} />
+          {getCoinsToDisplay(coinList, topSection).map((coinKey,i) => (
+            <CoinTile topSection={topSection} coinKey={coinKey} key={i} />
           ))}
         </CoinGridStyled>
       )}
