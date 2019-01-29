@@ -27,7 +27,7 @@ const CoinHeaderGrid = ({ name, symbol, topSection }) => {
       {topSection ? (
         <DeleteIcon> Remove </DeleteIcon>
       ) : (
-        <CoinSymbol> {Symbol} </CoinSymbol>
+        <CoinSymbol> {symbol} </CoinSymbol>
       )}
     </CoinHeaderGridStyled>
   );
