@@ -4,7 +4,7 @@ const cc = require('cryptocompare');
 
 export const AppContext = React.createContext();
 
-const MAX_FAVORITES = 10; 
+const MAX_FAVORITES = 10;
 
 class AppProvider extends Component {
   constructor(props) {
@@ -28,7 +28,7 @@ class AppProvider extends Component {
 
   fetchCoins = async () => {
     let coinList = (await cc.coinList()).Data;
-    this.setState({coinList, loading: false});
+    this.setState({ coinList, loading: false });
   };
 
   addCoin = key => {
@@ -36,15 +36,16 @@ class AppProvider extends Component {
     if (favorites.length < MAX_FAVORITES) {
       this.setState(prevState => ({
         favorites: [...prevState.favorites, key]
-      }))
+      }));
     }
-  }
+  };
 
   removeCoin = key => {
     let favorites = [...this.state.favorites];
-    this.setState({favorites: _.pull(favorites, key)});
-  }
+    this.setState({ favorites: _.pull(favorites, key) });
+  };
 
+  // Use lodash to check if coin in state.favorites
   isInFavorites = key => _.includes(this.state.favorites, key);
 
   confirmFavorites = () => {
@@ -68,8 +69,15 @@ class AppProvider extends Component {
     if (!cryptoDashData) return { page: 'settings', firstVisit: true };
 
     // If we have data in LS, return that data to our state
-    let {favorites} = cryptoDashData;
-    return {favorites};
+    let { favorites } = cryptoDashData;
+    // Since we are already spreading in this function via ...this.savedSettings() 
+    // in the state, we can simply return {favorites}
+    console.log(cryptoDashData);
+    console.log(favorites);
+    console.log({favorites});
+
+    return { favorites };
+    
   }
 
   setPage = page => this.setState({ page });
