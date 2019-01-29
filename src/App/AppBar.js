@@ -17,7 +17,7 @@ const ControlButtonEl = styled.div`
   ${props =>
     props.active &&
     css`
-      text-shadow: 2px 2px 12px #03ff03;
+      text-shadow: 2px 2px 12px #36D7B7;
       /* color: #03ff03; */
     `}
 `;
