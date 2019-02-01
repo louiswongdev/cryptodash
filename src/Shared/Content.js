@@ -6,13 +6,15 @@ import { CenterDiv } from '../Settings/ConfirmButton';
 
 const CenteredSpinner = styled(CenterDiv)`
   margin-top: 180px;
+  display: grid;
+  justify-content: center;
 `;
 
 const override = css`
     display: block !important;
     margin: 0 auto;
     /* margin-top: 10rem; */ 
-    border-color: red;
+    /* border-color: red; */
 `;
 
 const Content = ({children}) => {

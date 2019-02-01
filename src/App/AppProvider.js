@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
+import ModalMessage from '../Shared/ModalMessage';
 const cc = require('cryptocompare');
+
 
 export const AppContext = React.createContext();
 
-const MAX_FAVORITES = 10;
+const MAX_FAVORITES = 12;
 
 class AppProvider extends Component {
   constructor(props) {
@@ -18,7 +20,10 @@ class AppProvider extends Component {
       addCoin: this.addCoin,
       removeCoin: this.removeCoin,
       isInFavorites: this.isInFavorites,
-      confirmFavorites: this.confirmFavorites
+      confirmFavorites: this.confirmFavorites,
+      open: false,
+      // onOpenModal: this.onOpenModal,
+      // onCloseModal: this.onCloseModal,
     };
   }
 
@@ -37,6 +42,8 @@ class AppProvider extends Component {
       this.setState(prevState => ({
         favorites: [...prevState.favorites, key]
       }));
+    } else {
+      this.onOpenModal();
     }
   };
 
@@ -77,16 +84,27 @@ class AppProvider extends Component {
     console.log({favorites});
 
     return { favorites };
-    
   }
 
   setPage = page => this.setState({ page });
 
+  // Modal handlers
+  onOpenModal = () => {
+    this.setState({ open: true });
+  };
+
+  onCloseModal = () => {
+    this.setState({ open: false });
+  };
+
   render() {
     return (
+      <>
       <AppContext.Provider value={this.state}>
         {this.props.children}
       </AppContext.Provider>
+      <ModalMessage open={this.state.open} close={this.onCloseModal} message={'coinMaxed'} />
+    </>
     );
   }
 }

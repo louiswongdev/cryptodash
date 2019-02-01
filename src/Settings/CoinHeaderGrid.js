@@ -25,6 +25,7 @@ const DeleteIcon = styled.div`
   ${DeletableTile}:hover & {
     display: block;
     color: red;
+    font-size: 0.8rem;
   }
 `;
 
