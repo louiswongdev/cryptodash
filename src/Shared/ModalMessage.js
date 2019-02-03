@@ -12,7 +12,6 @@ const ModalStyled = styled.div`
 `;
 
 const ModalMessage = ({open, close, message}) => {
-  console.log(message)
   if (message === 'coinMaxed') return (
     <Modal open={open} onClose={close} center>
       <ModalStyled>

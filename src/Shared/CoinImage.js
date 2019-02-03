@@ -4,7 +4,7 @@ import styled from 'styled-components';
 const CoinImageStyled = styled.div`
   display: grid;
   justify-content: center;
-  padding: 10px 0;
+  padding-bottom: 10px;
 `;
 
 const CoinImage = ({ coin, style }) => {

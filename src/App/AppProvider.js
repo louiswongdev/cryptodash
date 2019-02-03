@@ -22,8 +22,7 @@ class AppProvider extends Component {
       isInFavorites: this.isInFavorites,
       confirmFavorites: this.confirmFavorites,
       open: false,
-      // onOpenModal: this.onOpenModal,
-      // onCloseModal: this.onCloseModal,
+      setFilteredCoins: this.setFilteredCoins
     };
   }
 
@@ -79,9 +78,6 @@ class AppProvider extends Component {
     let { favorites } = cryptoDashData;
     // Since we are already spreading in this function via ...this.savedSettings() 
     // in the state, we can simply return {favorites}
-    console.log(cryptoDashData);
-    console.log(favorites);
-    console.log({favorites});
 
     return { favorites };
   }
@@ -96,6 +92,8 @@ class AppProvider extends Component {
   onCloseModal = () => {
     this.setState({ open: false });
   };
+
+  setFilteredCoins = filteredCoins => this.setState({filteredCoins});
 
   render() {
     return (

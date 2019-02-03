@@ -10,20 +10,25 @@ export const CoinGridStyled = styled.div`
   margin-top: 8px;
 `;
 
+const getLowerSectionCoins = (coinList, filteredCoins) => {
+  return (filteredCoins && Object.keys(filteredCoins)) ||
+    Object.keys(coinList).slice(0, 54);
+}
+
 // If has topSection prop, show favorite coins from state,
 // else, all 100 for bottom grid tiles
-const getCoinsToDisplay = (coinList, topSection, favorites) => {
+const getCoinsToDisplay = (coinList, topSection, favorites, filteredCoins) => {
   return topSection
     ? favorites
-    : Object.keys(coinList).slice(0, topSection ? 10 : 54);
+    : getLowerSectionCoins(coinList, filteredCoins);
 };
 
 const CoinGrid = ({ topSection }) => {
   return (
     <AppContext.Consumer>
-      {({ coinList, favorites }) => (
+      {({ coinList, favorites, filteredCoins }) => (
         <CoinGridStyled>
-          {getCoinsToDisplay(coinList, topSection, favorites).map(
+          {getCoinsToDisplay(coinList, topSection, favorites, filteredCoins).map(
             (coinKey, i) => (
               <CoinTile topSection={topSection} coinKey={coinKey} key={i} />
             )
