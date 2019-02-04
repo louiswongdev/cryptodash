@@ -17,7 +17,7 @@ const ModalMessage = ({open, close, message}) => {
       <ModalStyled>
       <h3>Favorites Limit Reached</h3>
       <p>
-        You can only add a maximum of 10 coins to your favorites. 
+        You can only add a maximum of 12 coins to your favorites. 
       </p>
       </ModalStyled>
     </Modal>

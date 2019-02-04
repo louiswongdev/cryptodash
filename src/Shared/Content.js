@@ -20,7 +20,7 @@ const override = css`
 const Content = ({children}) => {
   return (
     <AppContext.Consumer>
-      {({loading}) => {
+      {({loading, firstVisit}) => {
         if(loading) {
           return (
             <CenteredSpinner>
