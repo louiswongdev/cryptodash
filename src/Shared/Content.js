@@ -1,7 +1,7 @@
 import React from 'react'
 import { AppContext } from '../App/AppProvider';
 import { GridLoader } from 'react-spinners';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { CenterDiv } from '../Settings/ConfirmButton';
 
 const CenteredSpinner = styled(CenterDiv)`
@@ -10,12 +10,12 @@ const CenteredSpinner = styled(CenterDiv)`
   justify-content: center;
 `;
 
-const override = css`
-    display: block !important;
-    margin: 0 auto;
-    /* margin-top: 10rem; */ 
-    /* border-color: red; */
-`;
+// const override = css`
+//     display: block !important;
+//     margin: 0 auto;
+//     /* margin-top: 10rem; */ 
+//     /* border-color: red; */
+// `;
 
 const Content = ({children}) => {
   return (

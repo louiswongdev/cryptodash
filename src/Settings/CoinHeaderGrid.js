@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import { DeletableTile } from '../Shared/Tile';
-import { fontSize2 } from '../Shared/Styles';
 
 export const CoinHeaderGridStyled = styled.div`
   display: grid;

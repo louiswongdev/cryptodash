@@ -6,7 +6,7 @@ const cc = require('cryptocompare');
 
 export const AppContext = React.createContext();
 
-const MAX_FAVORITES = 12;
+const MAX_FAVORITES = 10;
 
 class AppProvider extends Component {
   constructor(props) {
@@ -43,9 +43,10 @@ class AppProvider extends Component {
 
     let prices = await this.prices();
     this.setState(prevState => ({
-      prices: [...prevState.prices, ...prices],
+      prices: [...prices],
       loading: false
     }));
+    // this.setState({prices, loading: false})
   }
 
   prices = async () => {
@@ -85,7 +86,8 @@ class AppProvider extends Component {
   confirmFavorites = () => {
     this.setState({
       firstVisit: false,
-      page: 'dashboard'
+      page: 'dashboard',
+      // prices: null
     }, () => {
       this.fetchPrices();
     });
