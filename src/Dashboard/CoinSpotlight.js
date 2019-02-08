@@ -16,9 +16,11 @@ const CoinSpotlight = () => {
           <SpotlightName>{coinList[currentFavorite].CoinName}</SpotlightName>
           <CoinImage spotlight coin={coinList[currentFavorite]} />
         </Tile>
-      )}
+  )}
     </AppContext.Consumer>
   )
 }
 
 export default CoinSpotlight
+
+

@@ -20,8 +20,9 @@ const CenteredSpinner = styled(CenterDiv)`
 const Content = ({children}) => {
   return (
     <AppContext.Consumer>
-      {({loading, firstVisit}) => {
-        if(loading) {
+      {({coinList, loading}) => {
+        // make sure that coinList is fetched before we show dashboard area
+        if(loading || !coinList) {
           return (
             <CenteredSpinner>
               <GridLoader
