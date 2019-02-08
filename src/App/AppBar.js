@@ -19,7 +19,12 @@ const ControlButtonEl = styled.div`
     css`
       /* text-shadow: 2px 2px 12px #36D7B7; */
       /* border-bottom: 2px solid #36D7B7; */
-      color: #36D7B7;
+      color: #36d7b7;
+    `}
+  ${props =>
+    props.hidden &&
+    css`
+      diplay: none;
     `}
 `;
 
@@ -30,8 +35,12 @@ function toProperCase(lower) {
 const ControlButton = ({ name }) => {
   return (
     <AppContext.Consumer>
-      {({ page, setPage }) => (
-        <ControlButtonEl active={page === name} onClick={() => setPage(name)}>
+      {({ page, setPage, firstVisit }) => (
+        <ControlButtonEl
+          active={page === name}
+          onClick={() => setPage(name)}
+          hidden={firstVisit && name === 'dashboard'}
+        >
           {toProperCase(name)}
         </ControlButtonEl>
       )}
