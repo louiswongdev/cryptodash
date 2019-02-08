@@ -2,7 +2,7 @@ import React from 'react';
 import { AppContext } from '../App/AppProvider';
 import styled, { css } from 'styled-components';
 import { SelectableTile } from '../Shared/Tile';
-import { fontSize3, fontSizeBig } from '../Shared/Styles';
+import { fontSize3, fontSizeBig, greenBoxShadow } from '../Shared/Styles';
 import { CoinHeaderGridStyled } from '../Settings/CoinHeaderGrid';
 
 const JustifyRight = styled.div`
@@ -36,6 +36,11 @@ const PriceTileStyled = styled(SelectableTile)`
     grid-gap: 5px;
     justify-items: right;
   `} 
+
+  ${props => props.currentFavorite && css `
+    pointer-events: none;
+    ${greenBoxShadow}
+  `}
 `;
 
 const ChangePercent = ({data}) => {
@@ -48,9 +53,9 @@ const ChangePercent = ({data}) => {
   )
 }
 
-const PriceTileDashboard = ({sym, data}) => {
+const PriceTileDashboard = ({sym, data, currentFavorite, setCurrentFavorite}) => {
   return (
-    <PriceTileStyled>
+    <PriceTileStyled onClick={setCurrentFavorite} currentFavorite={currentFavorite}>
       <CoinHeaderGridStyled>
         <div>{sym}</div>
         <ChangePercent data={data} />
@@ -62,9 +67,9 @@ const PriceTileDashboard = ({sym, data}) => {
   )
 }
 
-const PriceTileCompact = ({sym, data}) => {
+const PriceTileCompact = ({sym, data, currentFavorite, setCurrentFavorite}) => {
   return (
-    <PriceTileStyled compact>
+    <PriceTileStyled onClick={setCurrentFavorite} compact currentFavorite={currentFavorite}>
       <JustifyLeft>{sym}</JustifyLeft>
       <ChangePercent data={data} />
       <div>
@@ -79,7 +84,16 @@ const PriceTile = ({ price, index }) => {
   let data = price[sym]['USD'];
   let TileClass = index < 5 ? PriceTileDashboard : PriceTileCompact;
   return (
-    <TileClass sym={sym} data={data} />
+    <AppContext.Consumer>
+      {({currentFavorite, setCurrentFavorite}) => (
+        <TileClass 
+          sym={sym} 
+          data={data} 
+          currentFavorite={currentFavorite === sym}
+          setCurrentFavorite={() => setCurrentFavorite(sym)}
+        />
+      )}
+    </AppContext.Consumer>
   );
 };
 

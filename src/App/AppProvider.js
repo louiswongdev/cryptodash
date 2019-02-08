@@ -18,10 +18,11 @@ class AppProvider extends Component {
       prices: [],
       ...this.savedSettings(),
       setPage: this.setPage,
-      addCoin: this.addCoin,
+      addCoin: this.addCoin, 
       removeCoin: this.removeCoin,
       isInFavorites: this.isInFavorites,
       confirmFavorites: this.confirmFavorites,
+      setCurrentFavorite: this.setCurrentFavorite,
       open: false,
       setFilteredCoins: this.setFilteredCoins
     };
@@ -84,9 +85,11 @@ class AppProvider extends Component {
   isInFavorites = key => _.includes(this.state.favorites, key);
 
   confirmFavorites = () => {
+    let currentFavorite = this.state.favorites[0];
     this.setState({
       firstVisit: false,
       page: 'dashboard',
+      currentFavorite,
       // prices: null
     }, () => {
       this.fetchPrices();
@@ -96,10 +99,23 @@ class AppProvider extends Component {
     localStorage.setItem(
       'cryptoDash',
       JSON.stringify({
-        favorites: this.state.favorites
+        favorites: this.state.favorites,
+        currentFavorite
       })
     );
   };
+
+  setCurrentFavorite = sym => {
+    this.setState({
+      currentFavorite: sym
+    });
+
+    // Set currentFavorite in localStorage (keep existing favorites array and add in new sym)
+    localStorage.setItem('cryptoDash', JSON.stringify({
+      ...JSON.parse(localStorage.getItem('cryptoDash')), 
+      currentFavorite: sym
+    }));
+  }
 
   savedSettings() {
     // Get cryptoDashData from LS
@@ -107,11 +123,11 @@ class AppProvider extends Component {
     if (!cryptoDashData) return { page: 'settings', firstVisit: true };
 
     // If we have data in LS, return that data to our state
-    let { favorites } = cryptoDashData;
+    let { favorites, currentFavorite } = cryptoDashData;
     // Since we are already spreading in this function via ...this.savedSettings() 
     // in the state, we can simply return {favorites}
 
-    return { favorites };
+    return { favorites, currentFavorite };
   }
 
   setPage = page => this.setState({ page });
