@@ -1,21 +1,26 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, {css} from 'styled-components';
 
-const CoinImageStyled = styled.div`
-  display: grid;
-  justify-content: center;
-  padding-bottom: 10px;
+const CoinImageStyled = styled.img`
+  padding: 10px 0;
+  height: 50px;
+  border-radius: 50%;
+  display: block;
+  margin: auto;
+
+  ${props => props.spotlight && css`
+    height: 200px;
+    
+  `}
 `;
 
-const CoinImage = ({ coin, style }) => {
+const CoinImage = ({ coin, spotlight }) => {
   return (
-    <CoinImageStyled>
-      <img
-        alt={coin.CoinSymbol}
-        style={style || { height: '50px', marginTop: '10px', borderRadius: '50%' }}
-        src={`http://cryptocompare.com/${coin.ImageUrl}`}
-      />
-    </CoinImageStyled>
+    <CoinImageStyled 
+      spotlight={spotlight}
+      alt={coin.CoinSymbol}
+      src={`http://cryptocompare.com/${coin.ImageUrl}`}
+    />
   );
 };
 
