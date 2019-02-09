@@ -20,10 +20,21 @@ const CenteredSpinner = styled(CenterDiv)`
 const Content = ({children}) => {
   return (
     <AppContext.Consumer>
-      {({coinList, prices, loading}) => {
+      {({coinList, prices, loading, firstVisit}) => {
         // make sure that coinList and prices are set in state 
         // before we show dashboard area
-        if(loading || !coinList || !prices) {
+        if(loading || !coinList) {
+          return (
+            <CenteredSpinner>
+              <GridLoader
+                // css={override}
+                sizeUnit={"px"}
+                size={18}
+                color={'#36D7B7'}
+            />
+            </CenteredSpinner>
+          )
+        } else if (!firstVisit && !prices) {
           return (
             <CenteredSpinner>
               <GridLoader

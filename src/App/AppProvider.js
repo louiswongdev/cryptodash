@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
+import moment from 'moment';
 import ModalMessage from '../Shared/ModalMessage';
 const cc = require('cryptocompare');
-
 
 export const AppContext = React.createContext();
 
 const MAX_FAVORITES = 10;
+const TIME_UNITS = 12;
 
 class AppProvider extends Component {
   constructor(props) {
@@ -17,7 +18,7 @@ class AppProvider extends Component {
       favorites: ['BTC', 'ETH', 'XMR', 'DOGE'],
       ...this.savedSettings(),
       setPage: this.setPage,
-      addCoin: this.addCoin, 
+      addCoin: this.addCoin,
       removeCoin: this.removeCoin,
       isInFavorites: this.isInFavorites,
       confirmFavorites: this.confirmFavorites,
@@ -30,9 +31,10 @@ class AppProvider extends Component {
   componentDidMount = () => {
     this.fetchCoins();
     this.fetchPrices();
+    this.fetchHistorical();
   };
 
-  fetchCoins = async () => { 
+  fetchCoins = async () => {
     let coinList = (await cc.coinList()).Data;
     this.setState({ coinList, loading: false });
   };
@@ -47,7 +49,26 @@ class AppProvider extends Component {
       loading: false
     }));
     // this.setState({prices, loading: false})
-  }
+  };
+
+  fetchHistorical = async () => {
+    if (this.state.firstVisit) return;
+
+    let results = await this.historical();
+    console.log('results', results)
+    let historical = [
+      {
+        name: this.state.currentFavorite,
+        data: results.map((ticker, index) => [
+          // x value --> date / y value --> price
+          moment().subtract({months: TIME_UNITS - index}).valueOf(),
+          ticker.USD
+        ])
+      }
+    ];
+
+    this.setState({historical});
+  };
 
   prices = async () => {
     let returnData = [];
@@ -60,11 +81,27 @@ class AppProvider extends Component {
       }
     }
     return returnData;
-  }
+  };
+
+  historical = () => {
+    let promises = [];
+
+    for (let units = TIME_UNITS; units > 0; units--) {
+      promises.push(
+        cc.priceHistorical(
+          this.state.currentFavorite,
+          ['USD'],
+          moment().subtract({ months: units })
+          .toDate()
+        )
+      );
+    }
+    return Promise.all(promises);
+  };
 
   addCoin = key => {
     let favorites = [...this.state.favorites];
-    
+
     if (favorites.length < MAX_FAVORITES) {
       this.setState(prevState => ({
         favorites: [...prevState.favorites, key]
@@ -85,14 +122,19 @@ class AppProvider extends Component {
 
   confirmFavorites = () => {
     let currentFavorite = this.state.favorites[0];
-    this.setState({
-      firstVisit: false,
-      page: 'dashboard',
-      currentFavorite,
-      // prices: null
-    }, () => {
-      this.fetchPrices();
-    });
+    this.setState(
+      {
+        firstVisit: false,
+        page: 'dashboard',
+        currentFavorite,
+        prices: null,
+        historical: null
+      },
+      () => {
+        this.fetchPrices();
+        this.fetchHistorical();
+      }
+    );
 
     // Set item in LS
     localStorage.setItem(
@@ -106,15 +148,19 @@ class AppProvider extends Component {
 
   setCurrentFavorite = sym => {
     this.setState({
-      currentFavorite: sym
-    });
+      currentFavorite: sym,
+      historical: null
+    }, this.fetchHistorical);
 
     // Set currentFavorite in localStorage (keep existing favorites array and add in new sym)
-    localStorage.setItem('cryptoDash', JSON.stringify({
-      ...JSON.parse(localStorage.getItem('cryptoDash')), 
-      currentFavorite: sym
-    }));
-  }
+    localStorage.setItem(
+      'cryptoDash',
+      JSON.stringify({
+        ...JSON.parse(localStorage.getItem('cryptoDash')),
+        currentFavorite: sym
+      })
+    );
+  };
 
   savedSettings() {
     // Get cryptoDashData from LS
@@ -123,7 +169,7 @@ class AppProvider extends Component {
 
     // If we have data in LS, return that data to our state
     let { favorites, currentFavorite } = cryptoDashData;
-    // Since we are already spreading in this function via ...this.savedSettings() 
+    // Since we are already spreading in this function via ...this.savedSettings()
     // in the state, we can simply return {favorites}
 
     return { favorites, currentFavorite };
@@ -140,16 +186,20 @@ class AppProvider extends Component {
     this.setState({ open: false });
   };
 
-  setFilteredCoins = filteredCoins => this.setState({filteredCoins});
+  setFilteredCoins = filteredCoins => this.setState({ filteredCoins });
 
   render() {
     return (
       <>
-      <AppContext.Provider value={this.state}>
-        {this.props.children}
-      </AppContext.Provider>
-      <ModalMessage open={this.state.open} close={this.onCloseModal} message={'coinMaxed'} />
-    </>
+        <AppContext.Provider value={this.state}>
+          {this.props.children}
+        </AppContext.Provider>
+        <ModalMessage
+          open={this.state.open}
+          close={this.onCloseModal}
+          message={'coinMaxed'}
+        />
+      </>
     );
   }
 }
