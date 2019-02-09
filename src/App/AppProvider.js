@@ -16,6 +16,7 @@ class AppProvider extends Component {
       page: 'dashboard',
       loading: true,
       favorites: ['BTC', 'ETH', 'XMR', 'DOGE'],
+      timeInterval: 'months',
       ...this.savedSettings(),
       setPage: this.setPage,
       addCoin: this.addCoin,
@@ -24,7 +25,8 @@ class AppProvider extends Component {
       confirmFavorites: this.confirmFavorites,
       setCurrentFavorite: this.setCurrentFavorite,
       open: false,
-      setFilteredCoins: this.setFilteredCoins
+      setFilteredCoins: this.setFilteredCoins,
+      changeChartSelect: this.changeChartSelect
     };
   }
 
@@ -55,19 +57,20 @@ class AppProvider extends Component {
     if (this.state.firstVisit) return;
 
     let results = await this.historical();
-    console.log('results', results)
     let historical = [
       {
         name: this.state.currentFavorite,
         data: results.map((ticker, index) => [
           // x value --> date / y value --> price
-          moment().subtract({months: TIME_UNITS - index}).valueOf(),
+          moment()
+            .subtract({ [this.state.timeInterval]: TIME_UNITS - index })
+            .valueOf(),
           ticker.USD
         ])
       }
     ];
 
-    this.setState({historical});
+    this.setState({ historical });
   };
 
   prices = async () => {
@@ -91,8 +94,9 @@ class AppProvider extends Component {
         cc.priceHistorical(
           this.state.currentFavorite,
           ['USD'],
-          moment().subtract({ months: units })
-          .toDate()
+          moment()
+            .subtract({ [this.state.timeInterval]: units })
+            .toDate()
         )
       );
     }
@@ -147,10 +151,13 @@ class AppProvider extends Component {
   };
 
   setCurrentFavorite = sym => {
-    this.setState({
-      currentFavorite: sym,
-      historical: null
-    }, this.fetchHistorical);
+    this.setState(
+      {
+        currentFavorite: sym,
+        historical: null
+      },
+      this.fetchHistorical
+    );
 
     // Set currentFavorite in localStorage (keep existing favorites array and add in new sym)
     localStorage.setItem(
@@ -187,6 +194,10 @@ class AppProvider extends Component {
   };
 
   setFilteredCoins = filteredCoins => this.setState({ filteredCoins });
+
+  changeChartSelect = value => {
+    this.setState({ timeInterval: value, historical: null }, this.fetchHistorical);
+  };
 
   render() {
     return (
