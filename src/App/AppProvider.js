@@ -15,7 +15,6 @@ class AppProvider extends Component {
       page: 'dashboard',
       loading: true,
       favorites: ['BTC', 'ETH', 'XMR', 'DOGE'],
-      prices: [],
       ...this.savedSettings(),
       setPage: this.setPage,
       addCoin: this.addCoin, 

@@ -21,6 +21,7 @@ export default function() {
 
     plotOptions: {
       series: {
+        // animation: false,
         label: {
           connectorAllowed: false
         },

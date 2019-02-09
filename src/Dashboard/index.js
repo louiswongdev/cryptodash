@@ -17,14 +17,12 @@ export default () => {
     <>
       {/* Only show children in <Page> component state.page === "settings"  */}
       <Page name="dashboard">
-      {console.log('rendering...')}
         <PriceGrid />
         <ChartGrid>
           <CoinSpotlight />
           <PriceChart />
         </ChartGrid>
       </Page>
-      
     </>
   )
 }

@@ -11,11 +11,16 @@ ReactHighcharts.Highcharts.setOptions(HighchartsTheme);
 const PriceChart = () => {
   return (
     <AppContext.Consumer>
-      {({historical}) => (
-        <Tile>
-          <ReactHighcharts config={highchartsConfig()} />
-        </Tile>
-      )}
+      {({historical, prices}) => {
+        if (prices) {
+          return (
+            <Tile>
+              <ReactHighcharts config={highchartsConfig()} />
+            </Tile>
+
+          )
+        }
+      }}
     </AppContext.Consumer>
   )
 }
