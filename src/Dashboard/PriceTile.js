@@ -41,6 +41,10 @@ const PriceTileStyled = styled(SelectableTile)`
     pointer-events: none;
     ${greenBoxShadow}
   `}
+
+  ${props => props.checked && css `
+    background: white;
+  `}
 `;
 
 const ChangePercent = ({data}) => {
@@ -53,9 +57,9 @@ const ChangePercent = ({data}) => {
   )
 }
 
-const PriceTileDashboard = ({sym, data, currentFavorite, setCurrentFavorite}) => {
+const PriceTileDashboard = ({sym, data, currentFavorite, setCurrentFavorite, checked}) => {
   return (
-    <PriceTileStyled onClick={setCurrentFavorite} currentFavorite={currentFavorite}>
+    <PriceTileStyled onClick={setCurrentFavorite} currentFavorite={currentFavorite} checked={checked}>
       <CoinHeaderGridStyled>
         <div>{sym}</div>
         <ChangePercent data={data} />
@@ -67,9 +71,9 @@ const PriceTileDashboard = ({sym, data, currentFavorite, setCurrentFavorite}) =>
   )
 }
 
-const PriceTileCompact = ({sym, data, currentFavorite, setCurrentFavorite}) => {
+const PriceTileCompact = ({sym, data, currentFavorite, setCurrentFavorite, checked}) => {
   return (
-    <PriceTileStyled onClick={setCurrentFavorite} compact currentFavorite={currentFavorite}>
+    <PriceTileStyled onClick={setCurrentFavorite} compact currentFavorite={currentFavorite} checked={checked}>
       <JustifyLeft>{sym}</JustifyLeft>
       <ChangePercent data={data} />
       <div>
@@ -85,12 +89,13 @@ const PriceTile = ({ price, index }) => {
   let TileClass = index < 5 ? PriceTileDashboard : PriceTileCompact;
   return (
     <AppContext.Consumer>
-      {({currentFavorite, setCurrentFavorite}) => (
+      {({currentFavorite, setCurrentFavorite, checked}) => (
         <TileClass 
           sym={sym} 
           data={data} 
           currentFavorite={currentFavorite === sym}
           setCurrentFavorite={() => setCurrentFavorite(sym)}
+          checked={checked}
         />
       )}
     </AppContext.Consumer>

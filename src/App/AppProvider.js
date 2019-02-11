@@ -15,6 +15,7 @@ class AppProvider extends Component {
     this.state = {
       page: 'dashboard',
       loading: true,
+      checked: false,
       favorites: ['BTC', 'ETH', 'XMR', 'DOGE'],
       timeInterval: 'months',
       ...this.savedSettings(),
@@ -24,6 +25,7 @@ class AppProvider extends Component {
       isInFavorites: this.isInFavorites,
       confirmFavorites: this.confirmFavorites,
       setCurrentFavorite: this.setCurrentFavorite,
+      handleToggleTheme: this.handleToggleTheme,
       open: false,
       setFilteredCoins: this.setFilteredCoins,
       changeChartSelect: this.changeChartSelect
@@ -192,6 +194,11 @@ class AppProvider extends Component {
   onCloseModal = () => {
     this.setState({ open: false });
   };
+
+  // Toggle Theme
+  handleToggleTheme = checked => {
+    this.setState({ checked });
+  }
 
   setFilteredCoins = filteredCoins => this.setState({ filteredCoins });
 

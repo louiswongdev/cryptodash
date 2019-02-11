@@ -1,3 +1,5 @@
+// import { lightTheme } from "../Shared/Styles";
+
 export default {
   colors: [
     '#36D7B7',

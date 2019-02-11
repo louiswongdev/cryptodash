@@ -6,6 +6,8 @@ import AppBar from './AppBar';
 import Settings from '../Settings';
 import Dashboard from '../Dashboard';
 import Content from '../Shared/Content';
+import Styles from '../Shared/Styles';
+import { Tile } from '../Shared/Tile';
 
 class App extends Component {
   render() {
@@ -17,6 +19,7 @@ class App extends Component {
             <Settings />
             <Dashboard />
           </Content>
+          <Styles />
         </AppProvider>
       </AppLayout>
     );

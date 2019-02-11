@@ -1,15 +1,22 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 import { AppContext } from './AppProvider';
+import ThemeToggle from '../Shared/ThemeToggle';
 
 const Bar = styled.div`
   display: grid;
-  grid-template-columns: 180px auto 100px 180px;
+  grid-template-columns: 180px auto 100px 180px 50px;
   margin-bottom: 40px;
+  align-items: center;
 `;
 
 const Logo = styled.div`
   font-size: 1.5rem;
+`;
+
+const MenuItems = styled.div`
+display: grid;
+  /* justify-self: right; */
 `;
 
 const ControlButtonEl = styled.div`
@@ -52,9 +59,12 @@ const AppBar = () => {
   return (
     <Bar>
       <Logo>CyptoDash</Logo>
-      <div />
-      <ControlButton active name="dashboard" />
-      <ControlButton name="settings" />
+      {/* <MenuItems> */}
+        <div />
+        <ControlButton active name="dashboard" />
+        <ControlButton name="settings" />
+        <ThemeToggle />
+      {/* </MenuItems> */}
     </Bar>
   );
 };
