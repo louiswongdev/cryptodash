@@ -37,12 +37,16 @@ const clickCoinHandler = (
 const DeletableTileThemed = ({checked, topSection, name, symbol, coin}) => {
   return (
     <DeletableTileStyled checked={checked}>
-      <CoinHeaderGrid
-        topSection={topSection}
-        name={coin.CoinName}
-        symbol={coin.Symbol}
-        />
-      <CoinImage coin={coin} />
+      {coin ? (
+        <>
+          <CoinHeaderGrid
+          topSection={topSection}
+          name={coin.CoinName}
+          symbol={coin.Symbol}
+          />
+          <CoinImage coin={coin} />
+        </>
+      ): null}
     </DeletableTileStyled>
   )
 }

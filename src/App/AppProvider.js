@@ -48,6 +48,10 @@ class AppProvider extends Component {
     if (this.state.firstVisit) return;
 
     let prices = await this.prices();
+
+    // We must filter the empty price objects due to API change
+    prices = prices.filter(price => Object.keys(price).length);
+    
     this.setState(prevState => ({
       prices: [...prices],
       loading: false
