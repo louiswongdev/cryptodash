@@ -16,6 +16,7 @@ const SelectableTileStyled = styled(SelectableTile)`
   ${props => props.checked && css `
     background: #fafafa;
   `}
+
   ${({disabled}) => disabled && `
     opacity: .4;
     pointer-events: none;   
@@ -31,6 +32,7 @@ const clickCoinHandler = (
 
   return topSection
   ? () => {
+    console.log('clicked')
     removeCoin(coinKey);
   }
   : () => {
@@ -38,18 +40,15 @@ const clickCoinHandler = (
   };
 };
 
-const DeletableTileThemed = ({checked, topSection, symbol, coin, coinKey, addCoin, removeCoin}) => {
+const DeletableTileThemed = ({checked, topSection, name, symbol, coin, onClick}) => {
   return (
-    <DeletableTileStyled 
-      onClick={clickCoinHandler(topSection, coinKey, addCoin, removeCoin)}
-      checked={checked}
-    >
+    <DeletableTileStyled onClick={onClick} checked={checked}>
       {coin ? (
         <>
           <CoinHeaderGrid
-            topSection={topSection}
-            name={coin.CoinName}
-            symbol={coin.Symbol}
+          topSection={topSection}
+          name={coin.CoinName}
+          symbol={coin.Symbol}
           />
           <CoinImage coin={coin} />
         </>
@@ -58,13 +57,9 @@ const DeletableTileThemed = ({checked, topSection, symbol, coin, coinKey, addCoi
   )
 }
 
-const SelectableTileThemed = ({checked, topSection, coin, coinKey, addCoin, removeCoin, disabled}) => {
+const SelectableTileThemed = ({checked, topSection, coin, onClick, disabled}) => {
   return (
-    <SelectableTileStyled 
-      onClick={clickCoinHandler(topSection, coinKey, addCoin, removeCoin)}
-      checked={checked} 
-      disabled={disabled}
-    >
+    <SelectableTileStyled disabled={disabled} onClick={onClick} checked={checked} >
       <CoinHeaderGrid
         topSection={topSection}
         name={coin.CoinName}
@@ -76,6 +71,7 @@ const SelectableTileThemed = ({checked, topSection, coin, coinKey, addCoin, remo
 }
 
 const CoinTile = ({ coinKey, topSection }) => {
+  console.log(coinKey)
   return (
     <AppContext.Consumer>
       {({
@@ -95,16 +91,13 @@ const CoinTile = ({ coinKey, topSection }) => {
 
         // Check if coin is in Favorites. If so, use DisabledTile
         if (!topSection && isInFavorites(coinKey)) {
-          // TileClass = DisabledTile;
           disabled = true;
         }
 
         return (
           <>
             <TileClass
-              coinKey={coinKey}
-              addCoin={addCoin}
-              removeCoin={removeCoin}
+              onClick={clickCoinHandler(topSection, coinKey, addCoin, removeCoin)}
               checked={checked}
               topSection={topSection}
               coin={coin}
