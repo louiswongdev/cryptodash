@@ -51,7 +51,7 @@ class AppProvider extends Component {
 
     // We must filter the empty price objects due to API change
     prices = prices.filter(price => Object.keys(price).length);
-    
+
     this.setState(prevState => ({
       prices: [...prices],
       loading: false
